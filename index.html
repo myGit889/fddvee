@@ -205,10 +205,10 @@
 <body>
   <div id="app">
     <div class="main-container">
-      <div style="width: 100%; margin-bottom: 10px;">
+      <div v-if="isPWA" style="width: 100%; margin-bottom: 10px;">
         <el-button style="width: 100%;" type="warning" round @click="handleImport()">导入</el-button>
       </div>
-      <el-tabs v-model="activeName" type="border-card" class="tabs-container" @tab-click="handleClick">
+      <el-tabs v-if="isPWA" v-model="activeName" type="border-card" class="tabs-container" @tab-click="handleClick">
         <el-tab-pane 
           v-for="(item,index) in tabsList" 
           :key="index" 
@@ -221,10 +221,10 @@
             <div class="use-status" :style="{'visibility': (citem.isUse || citem.isCopy || citem.isAfterSale) ? 'visible' : 'hidden'}">
               {{ citem.isAfterSale ? '售后' : citem.isUse ? '已用' :  citem.isCopy ? '已用' : '' }}
             </div>
-            <div class="use-status time-row">
+            <!-- <div class="use-status time-row">
               <span>导入时间: {{ citem.date }}</span>
               <span>序号: {{ citem.id }}</span>
-            </div>
+            </div> -->
             <div class="btn-group">
               <!-- <el-button :plain="!citem.isAfterSale" type="primary" @click="handleClickBtn(citem, 'isAfterSale')">售后</el-button>
               <el-button :plain="!citem.isUsed" type="success" @click="handleClickBtn(citem, 'isUsed')">已用</el-button>
@@ -259,7 +259,7 @@
       </transition> -->
       
       <!-- 安装指南 -->
-      <!-- <div v-if="!isPWA" class="animate__animated animate__fadeInUp animate__delay-2s">
+      <div v-if="!isPWA" class="animate__animated animate__fadeInUp animate__delay-2s">
         <div class="app-icon animate__animated animate__bounceIn">
           {{ appIcon }}
         </div>
@@ -315,7 +315,7 @@
               </div>
             </el-col>
           </el-row>
-        </el-card> -->
+        </el-card>
       </div>
     </div>
   </div>
