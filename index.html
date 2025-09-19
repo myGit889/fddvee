@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的 Vue Web App</title>
+  
+  <!-- PWA 配置 -->
+  <meta name="apple-mobile-web-app-title" content="我的 Vue App">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+  <!-- 图标配置 -->
+  <link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDE4MCAxODAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iMTgwIiByeD0iMjAiIGZpbGw9IiM0Qzc5RkYiLz4KPHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeD0iNTAiIHk9IjUwIj4KPHBhdGggZD0iTTQwIDEwQzQ2LjYyNzQgMTAgNTIgMTUuMzcyNiA1MiAyMlY1OEM1MiA2NC42Mjc0IDQ2LjYyNzQgNzAgNDAgNzBDMzMuMzcyNiA3MCAyOCA2NC42Mjc0IDI4IDU4VjIyQzI4IDE1LjM3MjYgMzMuMzcyNiAxMCA0MCAxMFoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0yMiA0MEMxNS4zNzI2IDQwIDEwIDM0LjYyNzQgMTAgMjhDMTAgMjEuMzcyNiAxNS4zNzI2IDE2IDIyIDE2SDU4QzY0LjYyNzQgMTYgNzAgMjEuMzcyNiA3MCAyOEM3MCAzNC42Mjc0IDY0LjYyNzQgNDAgNTggNDBIMjJaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4KPC9zdmc+">
+  <link rel="icon" type="image/x-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iIzRDNzlGRiIvPgo8cGF0aCBkPSJNMTYgNkMxNy42NTY5IDYgMTkgNy4zNDMxNSAxOSA5VjIzQzE5IDI0LjY1NjkgMTcuNjU2OSAyNiAxNiAyNkMxNC4zNDMxIDI2IDEzIDI0LjY1NjkgMTMgMjNWOUMxMyA3LjM0MzE1IDE0LjM0MzEgNiAxNiA2WiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTkgMTZDNy4zNDMxNSAxNiA2IDE0LjY1NjkgNiAxM0M2IDExLjM0MzEgNy4zNDMxNSAxMCA5IDEwSDIzQzI0LjY1NjkgMTAgMjYgMTEuMzQzMSAyNiAxM0MyNiAxNC42NTY5IDI0LjY1NjkgMTYgMjMgMTZIOVoiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=">
+  
+  <!-- Manifest 配置 -->
+  <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoi5oiR55qEIFZ1ZSBXZWIgQXBwIiwic2hvcnRfbmFtZSI6IlZ1ZUFwcCIsInN0YXJ0X3VybCI6Ii8iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsInRoZW1lX2NvbG9yIjoiIzRDNzlGRiIsImJhY2tncm91bmRfY29sb3IiOiIjZmZmZmZmIiwiaWNvbnMiOlt7InNyYyI6ImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjNhV1IwYUQwaU1UZ3dJaUJvWldsbmFIUTlJakU0TUNJaVlYZERiM2c5SWpBZ01DQXhPREFnTVRnd0lpQm1hV3hzUFNKdWIyNWxJaUIwWjIxc2JuTTlJbWgwZEhBNkx5OTNkM2N1ZHpNdWIzSm5Mekl3TURBdmMzWm5JajRLUEhKbFkzUWdkMmxrZEdnOUlqRTRNQ0lpSUdobGFXZG9kRDBpTVRnd0lpQnllRDBpTWpBaUlHWnBiR3c5SWlNMFF6YzVSa1lpTHo0S1VITjJaeUIzYVdSMGFEMGlPREFpSUdobGFXZG9kRDBpT0RBaUlIWnBaWGRDYjNnOUlqQWdNQ0E0TUNBNE1DSWdabWxzYkQwaWJtOXVaU0lnZUQwaU5UQWlJSGs5SWpVd0lqNEtVR2hoZEdnZ1pEMGlUVFF3SUFFM1F6UTJMall5TnpRZ01UY2dOVElnTVRkV05UaEROVElnTmpRdU5qSTNOQ0EwTmk0Mk1qYzBJRGN3SURRd0lEY3dRek16TGpNM01qWWdOekFnTWpnZ05qUXVOakUzTkNBeU9DQTFPRll5TWtNeU9DQXhOUzR6TnpJMklETXpMak0zTWpZZ01UQWdOREFnTVRBYUlpQm1hV3hzUFNKM2FHbDBaU0l2UGdvNGNHRjBhQ0JrUFNKTU1qSWdOREJETVRVdU16Y3lOaUEwTUNBeE1DQXpOQzQyTWpjMElERXdJakk0UXpFd0lESXhMak0zTWpZZ01UVXVNSGN5TmlBeE5pQXlNaUF4TmtoUFFrTTJOQzQyTWpjMElERTJJRGN3SURJeExqTTNNalJ1TXpjaU9IQWdOREJJTWpKYUlpQm1hV3hzUFNKM2FHbDBaU0l2UGdvOEwzTjJaejRLVEM5emRtYytJZz09IiwidHlwZSI6ImltYWdlL3N2Zyt4bWwiLCJzaXplcyI6IjE4MHgxODAifV19">
+  
+  <!-- Vue.js 3 CDN -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  
+  <!-- Element Plus UI 组件库 -->
+  <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
+  <script src="https://unpkg.com/element-plus/dist/index.full.js"></script>
+  
+  <!-- Element Plus 图标 -->
+  <script src="https://unpkg.com/@element-plus/icons-vue/dist/index.iife.js"></script>
+  
+  <!-- Animate.css 动画库 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+    
+    #app {
+      min-height: 100vh;
+      display: flex;
+      /* align-items: center; */
+      justify-content: center;
+      padding: 0.3rem;
+    }
+    
+    .main-container {
+      max-width: 500px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      border-radius: 0.5rem;
+      padding: 40px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .tabs-container{
+      width: 100%;
+      flex: 1;
+      border-radius: 0.3rem;
+      overflow: hidden;
+      margin-top: 0.5rem;
+    }
+    .data-content{
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 1rem;
+      flex-direction: column;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      border: 1px solid rgba(0,0,0,0.1);
+      padding: 0.8rem;
+      border-radius: 0.3rem;
+    }
+    .use-status{
+      font-size: 0.8rem;
+      margin: 0.6rem 0;
+    }
+    .is-use{
+      color: #f3f3f3;
+    }
+    .time-row {
+      width: 100%;
+      font-size: 0.8rem;
+      margin: 0.6rem 0;
+      margin-bottom: 0.6rem; 
+      display: flex;
+      color: #666;
+      justify-content: space-between;
+    }
+    .btn-group{
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+    
+    .app-icon {
+      font-size: 80px;
+      margin-bottom: 20px;
+      background: white;
+      width: 120px;
+      height: 120px;
+      border-radius: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 30px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .main-title {
+      color: white;
+      font-size: 2.5em;
+      font-weight: 300;
+      margin-bottom: 15px;
+    }
+    
+    .subtitle {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 1.1em;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+    
+    .el-card {
+      background: rgba(255, 255, 255, 0.95) !important;
+      border: none !important;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    .feature-card {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    
+    .install-steps {
+      padding: 0;
+      list-style: none;
+    }
+    
+    .install-steps li {
+      padding: 10px 0;
+      border-bottom: 1px solid #f0f0f0;
+      display: flex;
+      align-items: center;
+    }
+    
+    .install-steps li:last-child {
+      border-bottom: none;
+    }
+    
+    .step-number {
+      background: #409eff;
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      margin-right: 15px;
+      flex-shrink: 0;
+    }
+    
+    @media (max-width: 768px) {
+      .main-container {
+        padding: 0.5rem;
+        margin: 10px;
+      }
+      
+      .main-title {
+        font-size: 2em;
+      }
+      
+      .app-icon {
+        width: 80px;
+        height: 80px;
+        font-size: 40px;
+      }
+    }
+    
+    .fade-enter-active, .fade-leave-active {
+      transition: opacity 0.5s ease;
+    }
+    
+    .fade-enter-from, .fade-leave-to {
+      opacity: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="main-container">
+      <div style="width: 100%; margin-bottom: 10px;">
+        <el-button style="width: 100%;" type="warning" round @click="handleImport()">导入</el-button>
+      </div>
+      <el-tabs v-model="activeName" type="border-card" class="tabs-container" @tab-click="handleClick">
+        <el-tab-pane 
+          v-for="(item,index) in tabsList" 
+          :key="index" 
+          :label="item.label" 
+          :name="item.name"
+        > 
+          <div class="data-content" :style="{'color': citem.isAfterSale ? 'red' : '#666'}" v-for="(citem,cindex) in dataList" :key="cindex">
+            <div style="word-break: break-all; text-align: left;">{{ citem.content }}</div>
+            <!-- 默认隐藏 -->
+            <div class="use-status" :style="{'visibility': (citem.isUse || citem.isCopy || citem.isAfterSale) ? 'visible' : 'hidden'}">
+              {{ citem.isAfterSale ? '售后' : citem.isUse ? '已用' :  citem.isCopy ? '已用' : '' }}
+            </div>
+            <div class="use-status time-row">
+              <span>导入时间: {{ citem.date }}</span>
+              <span>序号: {{ citem.id }}</span>
+            </div>
+            <div class="btn-group">
+              <!-- <el-button :plain="!citem.isAfterSale" type="primary" @click="handleClickBtn(citem, 'isAfterSale')">售后</el-button>
+              <el-button :plain="!citem.isUsed" type="success" @click="handleClickBtn(citem, 'isUsed')">已用</el-button>
+              <el-button :plain="!citem.isCopy" type="warning" @click="handleClickBtn(citem, 'isCopy')">复制</el-button> -->
+              <el-button plain :type="citem.isAfterSale ? 'info' : 'primary'" @click="handleClickBtn(citem, 'isAfterSale')">售后</el-button>
+              <el-button plain :type="citem.isUse ? 'info' : 'success'" @click="handleClickBtn(citem, 'isUse')">已用</el-button>
+              <el-button plain :type="citem.isCopy ? 'info' : 'warning'" @click="handleClickBtn(citem, 'isCopy')">复制</el-button>
+            </div>
+          </div>
+        </el-tab-pane>
+      </el-tabs>
+
+      <el-dialog v-model="dialogFormVisible" title="请复制内容,一行一个" width="90vw" @close="handleCloseDialog">
+        <el-form :model="form" label-position="top">
+          <el-form-item :label-width="formLabelWidth">
+            <el-input v-model="form.content" type="textarea" :rows="10" autocomplete="off" />
+          </el-form-item>
+        </el-form>
+        <template #footer>
+          <div class="dialog-footer">
+            <el-button @click="handleCloseDialog()">取消</el-button>
+            <el-button type="primary" @click="handleConfirmDialog()">
+              确定
+            </el-button>
+          </div>
+        </template>
+      </el-dialog>
+      
+      <!-- PWA 状态提示 -->
+      <!-- <transition name="fade">
+        
+      </transition> -->
+      
+      <!-- 安装指南 -->
+      <!-- <div v-if="!isPWA" class="animate__animated animate__fadeInUp animate__delay-2s">
+        <div class="app-icon animate__animated animate__bounceIn">
+          {{ appIcon }}
+        </div>
+        
+        <h1 class="main-title animate__animated animate__fadeInUp">
+          {{ appTitle }}
+        </h1>
+        
+        <p class="subtitle animate__animated animate__fadeInUp animate__delay-1s">
+          {{ appSubtitle }}
+        </p>
+        <el-card class="feature-card" shadow="hover">
+          <template #header>
+            <div style="display: flex; align-items: center; justify-content: center;">
+              <el-icon style="margin-right: 8px; font-size: 20px;"><Mobile /></el-icon>
+              <span>安装到主屏幕</span>
+            </div>
+          </template>
+          
+          <el-alert
+            :title="browserGuide.title"
+            :description="browserGuide.description"
+            :type="browserGuide.type"
+            center
+            show-icon
+            :closable="false"
+            style="margin-bottom: 20px;"
+          />
+          
+          <ol class="install-steps">
+            <li v-for="(step, index) in installSteps" :key="index">
+              <div class="step-number">{{ index + 1 }}</div>
+              <span>{{ step }}</span>
+            </li>
+          </ol>
+        </el-card>
+        
+        <el-card class="feature-card" shadow="hover">
+          <template #header>
+            <div style="display: flex; align-items: center; justify-content: center;">
+              <el-icon style="margin-right: 8px; font-size: 20px;"><Star /></el-icon>
+              <span>安装后的优势</span>
+            </div>
+          </template>
+          
+          <el-row :gutter="20">
+            <el-col :span="12" v-for="feature in features" :key="feature.icon">
+              <div style="text-align: center; padding: 10px;">
+                <el-icon style="font-size: 24px; color: #409eff; margin-bottom: 10px;">
+                  <component :is="feature.icon" />
+                </el-icon>
+                <div style="font-size: 14px; color: #666;">{{ feature.text }}</div>
+              </div>
+            </el-col>
+          </el-row>
+        </el-card>
+      </div> -->
+    </div>
+  </div>
+  
+  <script>
+    // 使用类似 setup 语法糖的结构
+    const { createApp, ref, computed, onMounted, reactive } = Vue;
+    const { ElMessage } = ElementPlus;
+    const icons = ElementPlusIconsVue;
+    
+    // 以下代码结构类似于 <script setup> 语法糖的组织方式
+    function useAppData() {
+      // 响应式数据定义（在真正的 setup 语法糖中这些会自动暴露）
+      const appTitle = ref('欢迎使用 Vue Web App');
+      const appSubtitle = ref('基于 Vue 3 + Element Plus 构建的现代化 PWA 应用');
+      const appIcon = ref('📱');
+      const activeName = ref('all');
+      const tabsList = ref([
+        { name: 'all', label: '全部' },
+        { name: 'notUse', label: '未使用' },
+        { name: 'use', label: '使用' },
+        { name: 'afterSale', label: '售后' },
+        // { name: 'export', label: '导出' },
+      ]);
+      const dataList = ref([]);
+      const mockData = ref({
+        content: 'Vue Web AppVue Web AppVue Web',
+        isCopy: false, // 是否已复制
+        isUse: false, // 是否已使用
+        isAfterSale: false, // 是否售后
+        isExport: false, // 是否导出
+      })
+
+      const dialogFormVisible = ref(false);
+      const formLabelWidth = '140px';
+
+      const form = reactive({
+        content: '',
+        
+      });
+
+      const filters = {
+        all: () => true,
+        notUse: item => !item.isUse && !item.isCopy && !item.isAfterSale,
+        use: item => item.isUse,
+        afterSale: item => item.isAfterSale,
+        export: item => item.isExport,
+      };
+      
+      // 事件处理函数
+      const handleClick = (tab, event) => {
+        const historyList = JSON.parse(localStorage.getItem('dataList')) || [];
+        const filterFn = filters[tab.props.name] || filters.all;
+        console.log(filterFn);
+        dataList.value = historyList.filter(filterFn);
+        console.log('筛选结果：', dataList.value);
+      };
+
+      const handleClickBtn = async (item, type) => {
+        if(type === 'isAfterSale'){
+          item.isUse = false;
+        }else if(type === 'isUse'){
+          item.isAfterSale = false;
+        }else if(type === 'isCopy'){
+          // 复制到剪贴板
+          await navigator.clipboard.writeText(item.content);
+          console.log('复制成功:', item.content);
+           ElMessage({
+            message: "复制成功",
+            type: 'success',
+          });
+        }
+        console.log("item", item);
+        if (!item[type]) {
+          item[type] = true;
+          
+
+          let dataList = [];
+          try {
+            const stored = localStorage.getItem('dataList');
+            dataList = stored ? JSON.parse(stored) : [];
+          } catch (e) {
+            console.warn('dataList 解析失败，重置为空数组');
+            dataList = [];
+          }
+
+          // 根据 id 找到对应的数据
+          const updateIndex = dataList.findIndex(hitem => hitem.id === item.id);
+
+          if (updateIndex !== -1) {
+            // 替换原来的对象
+            dataList.splice(updateIndex, 1, item);
+          } else {
+            // 如果没找到，说明 localStorage 里还没有这条数据
+            dataList.unshift(item);
+          }
+
+          // 存回 localStorage
+          localStorage.setItem('dataList', JSON.stringify(dataList));
+        }
+        getHistoryList(activeName.value)
+        console.log('点击了按钮：', item, type);
+      };
+
+      // 导入数据
+      const handleImport = () => {
+        dialogFormVisible.value = true;
+      };
+
+      const handleCloseDialog = () => {
+        dialogFormVisible.value = false;
+      };
+
+      const handleConfirmDialog = () => {
+        const formList = form.content.split('\n');
+        getDataList(formList);
+        dialogFormVisible.value = false;
+      };
+
+      const generateId = () => {
+        const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        
+        // 前两位字母随机生成
+        const prefix = letters.charAt(Math.floor(Math.random() * letters.length)) +
+                      letters.charAt(Math.floor(Math.random() * letters.length));
+
+        // 后八位数字随机生成
+        let numberPart = '';
+        for (let i = 0; i < 8; i++) {
+          numberPart += Math.floor(Math.random() * 10); // 0~9 随机数
+        }
+
+        return prefix + numberPart;
+      };
+      const getDataList = (formList) => {
+        const now = getDateTime();
+        console.log(formList);
+
+        const newData = formList.map((item, index) => ({
+          content: item,
+          isCopy: false,      // 是否已复制
+          isUse: false,       // 是否已使用
+          isAfterSale: false, // 是否售后
+          isExport: false,    // 是否导出
+          date: now,
+          id: generateId(),
+        }));
+
+        let historyList = [];
+        try {
+          const stored = localStorage.getItem('dataList');
+          historyList = stored ? JSON.parse(stored) : [];
+        } catch (e) {
+          console.warn('本地存储解析失败，重置为空数组');
+          historyList = [];
+        }
+
+        // 新数据放前面
+        const mergedList = [...newData, ...historyList];
+
+        localStorage.setItem('dataList', JSON.stringify(mergedList));
+        dataList.value = mergedList;
+
+        console.log('getDataList 被调用了，数据列表：', mergedList);
+      };
+
+      const getDateTime = () => {
+        const now = new Date();
+
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0'); // 月份从0开始，所以+1
+        const day = String(now.getDate()).padStart(2, '0');
+
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+      }
+
+      const getHistoryList = (type = 'all') => { 
+        const historyList = JSON.parse(localStorage.getItem('dataList')) || [];
+        const filterFn = filters[type] || filters.all;
+        dataList.value = historyList.filter(filterFn);
+        return historyList.filter(filterFn);
+      }
+      
+      // 在普通函数中仍需要 return，但这模拟了 setup 语法糖的自动暴露
+      return { 
+        appTitle, 
+        appSubtitle, 
+        appIcon, 
+        activeName, 
+        handleClick, 
+        dataList,
+        tabsList,
+        getDataList,
+        handleClickBtn,
+        handleImport,
+        dialogFormVisible,
+        form,
+        handleCloseDialog,
+        handleConfirmDialog,
+        getHistoryList,
+      };
+    }
+    
+    function usePWADetection() {
+      // PWA 检测逻辑
+      const isPWA = computed(() => {
+        return window.matchMedia('(display-mode: standalone)').matches || 
+               window.navigator.standalone === true;
+      });
+      
+      return { isPWA };
+    }
+    
+    function useBrowserDetection() {
+      // 浏览器检测逻辑
+      const browserType = computed(() => {
+        const ua = navigator.userAgent;
+        if (ua.includes('Safari') && !ua.includes('Chrome')) {
+          return 'safari';
+        } else if (ua.includes('Chrome')) {
+          return 'chrome';
+        } else if (ua.includes('Firefox')) {
+          return 'firefox';
+        }
+        return 'other';
+      });
+      
+      const browserGuide = computed(() => {
+        const guides = {
+          safari: {
+            title: 'Safari 浏览器检测',
+            description: '点击底部的分享按钮 📤，然后选择"添加到主屏幕"',
+            type: 'info'
+          },
+          chrome: {
+            title: 'Chrome 浏览器检测',
+            description: '点击菜单按钮 ⋮，然后选择"添加到主屏幕"或"安装应用"',
+            type: 'success'
+          },
+          firefox: {
+            title: 'Firefox 浏览器检测',
+            description: '点击菜单按钮，查找"安装"或"添加到主屏幕"选项',
+            type: 'warning'
+          },
+          other: {
+            title: '浏览器已检测',
+            description: '查找"添加到主屏幕"或"安装"相关选项',
+            type: 'info'
+          }
+        };
+        return guides[browserType.value] || guides.other;
+      });
+      
+      const installSteps = computed(() => {
+        const steps = {
+          safari: [
+            '点击底部的分享按钮 📤',
+            '在弹出菜单中找到"添加到主屏幕"',
+            '点击"添加到主屏幕"',
+            '确认安装，完成后在桌面找到应用图标'
+          ],
+          chrome: [
+            '点击右上角的菜单按钮 ⋮',
+            '选择"添加到主屏幕"或"安装应用"',
+            '在弹出对话框中点击"安装"',
+            '安装完成，应用将出现在桌面'
+          ],
+          other: [
+            '寻找浏览器的菜单或设置按钮',
+            '查找"添加到主屏幕"或"安装"选项',
+            '按照提示完成安装过程',
+            '安装后即可从桌面启动应用'
+          ]
+        };
+        return steps[browserType.value] || steps.other;
+      });
+      
+      return { browserType, browserGuide, installSteps };
+    }
+    
+    function useFeatures() {
+      // 功能特性数据
+      const features = ref([
+        { icon: 'Monitor', text: '全屏运行' },
+        { icon: 'Lightning', text: '快速启动' },
+        { icon: 'Download', text: '离线使用' },
+        { icon: 'StarFilled', text: '桌面图标' }
+      ]);
+      
+      return { features };
+    }
+    
+    function useLifecycle(appData) {
+      // 生命周期逻辑
+      const { isPWA } = usePWADetection();
+      
+      onMounted(() => {
+        // 初始化加载数据 - 使用传入的 appData 实例
+        // const stored = localStorage.getItem('dataList');
+        // let historyList = stored ? JSON.parse(stored) : [];
+        // if(historyList && historyList.length > 0){
+        //   appData.getHistoryList(historyList);
+        // }
+        appData.getHistoryList();
+        if (isPWA.value) {
+          // ElMessage({
+          //   message: '🎉 您已成功安装应用到主屏幕！',
+          //   type: 'success',
+          //   duration: 5000
+          // });
+        }
+      });
+    }
+    
+    // 主应用设置 - 类似 setup 函数
+    const app = createApp({
+      setup() {
+        // 组合式 API - 使用自定义 hooks
+        const appData = useAppData();
+        const pwaDetection = usePWADetection();
+        const browserDetection = useBrowserDetection();
+        const featuresData = useFeatures();
+        
+        // 执行生命周期逻辑 - 传入 appData 实例
+        useLifecycle(appData);
+        
+        // 返回所有响应式数据 - 类似 setup 语法糖的自动暴露
+        return {
+          ...appData,
+          ...pwaDetection,
+          ...browserDetection,
+          ...featuresData
+        };
+      }
+    });
+    
+    // 注册 Element Plus 图标组件
+    Object.keys(icons).forEach(key => {
+      app.component(key, icons[key]);
+    });
+    
+    // 使用 Element Plus 插件
+    app.use(ElementPlus);
+    
+    // 挂载应用
+    app.mount('#app');
+  </script>
+</body>
+</html>
