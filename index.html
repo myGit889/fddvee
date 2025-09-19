@@ -199,6 +199,73 @@
     .fade-enter-from, .fade-leave-to {
       opacity: 0;
     }
+    
+    /* 移动端优化 */
+    .tabs-container {
+      /* 禁止横向滚动 */
+      overflow-x: hidden;
+    }
+    
+    /* 禁止 Element Plus 标签页的滑动手势 */
+    .el-tabs__content {
+      touch-action: pan-y !important; /* 只允许垂直滚动 */
+      overflow-x: hidden !important;
+    }
+    
+    .el-tab-pane {
+      touch-action: pan-y !important;
+      overflow-x: hidden !important;
+    }
+    
+    /* 移动端按钮优化 */
+    @media (max-width: 768px) {
+      .btn-group {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+      }
+      
+      .btn-group .el-button {
+        flex: 1;
+        font-size: 12px;
+        padding: 6px 8px;
+        /* 确保按钮可以正常点击 */
+        touch-action: manipulation !important;
+        pointer-events: auto !important;
+      }
+      
+      .data-content {
+        margin-bottom: 15px;
+        padding: 10px;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.9);
+      }
+      
+      /* 禁止选中文本，但不影响按钮 */
+      .data-content > div:not(.btn-group) {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+      
+      /* 移动端标签页优化 */
+      .el-tabs__header {
+        margin: 0 0 15px 0;
+      }
+      
+      .el-tabs__nav {
+        display: flex;
+        width: 100%;
+      }
+      
+      .el-tabs__item {
+        flex: 1;
+        text-align: center;
+        font-size: 14px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -328,7 +395,7 @@
     // 以下代码结构类似于 <script setup> 语法糖的组织方式
     function useAppData() {
       // 响应式数据定义（在真正的 setup 语法糖中这些会自动暴露）
-      const appTitle = ref('欢迎使用 订单粘贴板1.0.0');
+      const appTitle = ref('欢迎使用 订单粘贴板1.0.1');
       const appSubtitle = ref('基于 Vue 3 + Element Plus 构建的现代化 PWA 应用');
       const appIcon = ref('📱');
       const activeName = ref('all');
@@ -366,6 +433,7 @@
       };
 
       const handleClickBtn = async (item, type) => {
+        console.log(item)
         if(type === 'isAfterSale'){
           item.isUse = false;
           item.isCopy = false;
@@ -611,6 +679,77 @@
       const { isPWA } = usePWADetection();
       
       onMounted(() => {
+        // 移动端优化：禁止横向滑动
+        const initMobileOptimization = () => {
+          // 检测是否为移动设备
+          const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+          
+          if (isMobile) {
+            console.log('移动设备检测，开启优化');
+            
+            // 禁止横向滚动
+            document.body.style.overflowX = 'hidden';
+            document.documentElement.style.overflowX = 'hidden';
+            
+            // 为标签页添加移动端优化
+            setTimeout(() => {
+              const tabsContainer = document.querySelector('.tabs-container');
+              const tabsContent = document.querySelector('.el-tabs__content');
+              const tabPanes = document.querySelectorAll('.el-tab-pane');
+              
+              if (tabsContainer) {
+                tabsContainer.style.overflowX = 'hidden';
+              }
+              
+              if (tabsContent) {
+                // 禁止横向滑动手势
+                tabsContent.style.touchAction = 'pan-y';
+                tabsContent.style.overflowX = 'hidden';
+                
+                // 只在非按钮区域禁止拖拽事件
+                tabsContent.addEventListener('touchmove', (e) => {
+                  // 检查是否在按钮上
+                  const target = e.target;
+                  const isButton = target.closest('.el-button') || target.classList.contains('el-button');
+                  
+                  if (!isButton) {
+                    // 只允许垂直滚动
+                    const touch = e.touches[0];
+                    const deltaX = Math.abs(touch.clientX - (touch.startX || touch.clientX));
+                    const deltaY = Math.abs(touch.clientY - (touch.startY || touch.clientY));
+                    
+                    if (deltaX > deltaY) {
+                      e.preventDefault();
+                    }
+                  }
+                }, { passive: false });
+              }
+              
+              tabPanes.forEach(pane => {
+                pane.style.touchAction = 'pan-y';
+                pane.style.overflowX = 'hidden';
+                
+                // 为按钮区域添加特殊处理
+                const buttons = pane.querySelectorAll('.el-button');
+                buttons.forEach(btn => {
+                  btn.style.touchAction = 'manipulation';
+                  btn.style.pointerEvents = 'auto';
+                });
+              });
+              
+              // 为所有按钮添加保护
+              const allButtons = document.querySelectorAll('.btn-group .el-button');
+              allButtons.forEach(btn => {
+                btn.style.touchAction = 'manipulation';
+                btn.style.pointerEvents = 'auto';
+                btn.style.zIndex = '999';
+              });
+              
+              console.log('移动端优化已应用');
+            }, 100);
+          }
+        };
+        
         // 初始化加载数据 - 使用传入的 appData 实例
         // const stored = localStorage.getItem('dataList');
         // let historyList = stored ? JSON.parse(stored) : [];
@@ -625,6 +764,9 @@
           //   duration: 5000
           // });
         }
+        
+        // 执行移动端优化
+        initMobileOptimization();
       });
     }
     
