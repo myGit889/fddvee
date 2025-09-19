@@ -329,7 +329,7 @@
     // 以下代码结构类似于 <script setup> 语法糖的组织方式
     function useAppData() {
       // 响应式数据定义（在真正的 setup 语法糖中这些会自动暴露）
-      const appTitle = ref('欢迎使用 Vue Web App');
+      const appTitle = ref('欢迎使用 订单粘贴板');
       const appSubtitle = ref('基于 Vue 3 + Element Plus 构建的现代化 PWA 应用');
       const appIcon = ref('📱');
       const activeName = ref('all');
@@ -341,14 +341,6 @@
         // { name: 'export', label: '导出' },
       ]);
       const dataList = ref([]);
-      const mockData = ref({
-        content: 'Vue Web AppVue Web AppVue Web',
-        isCopy: false, // 是否已复制
-        isUse: false, // 是否已使用
-        isAfterSale: false, // 是否售后
-        isExport: false, // 是否导出
-      })
-
       const dialogFormVisible = ref(false);
       const formLabelWidth = '140px';
 
