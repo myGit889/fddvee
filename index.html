@@ -96,9 +96,8 @@
       font-size: 0.8rem;
       margin: 0.6rem 0;
       margin-bottom: 0.6rem; 
-      display: flex;
       color: #666;
-      justify-content: space-between;
+      text-align: left;
     }
     .btn-group{
       width: 100%;
@@ -221,10 +220,10 @@
             <div class="use-status" :style="{'visibility': (citem.isUse || citem.isCopy || citem.isAfterSale) ? 'visible' : 'hidden'}">
               {{ citem.isAfterSale ? '售后' : citem.isUse ? '已用' :  citem.isCopy ? '已用' : '' }}
             </div>
-            <!-- <div class="use-status time-row">
-              <span>导入时间: {{ citem.date }}</span>
-              <span>序号: {{ citem.id }}</span>
-            </div> -->
+            <div class="use-status time-row">
+              <div>导入时间: {{ citem.date }}</div>
+              <div>序号: {{ citem.id }}</div>
+            </div>
             <div class="btn-group">
               <!-- <el-button :plain="!citem.isAfterSale" type="primary" @click="handleClickBtn(citem, 'isAfterSale')">售后</el-button>
               <el-button :plain="!citem.isUsed" type="success" @click="handleClickBtn(citem, 'isUsed')">已用</el-button>
@@ -433,15 +432,17 @@
         
         // 前两位字母随机生成
         const prefix = letters.charAt(Math.floor(Math.random() * letters.length)) +
+                      letters.charAt(Math.floor(Math.random() * letters.length)) + 
+                      letters.charAt(Math.floor(Math.random() * letters.length)) + 
                       letters.charAt(Math.floor(Math.random() * letters.length));
 
         // 后八位数字随机生成
         let numberPart = '';
-        for (let i = 0; i < 8; i++) {
+        for (let i = 0; i < 5; i++) {
           numberPart += Math.floor(Math.random() * 10); // 0~9 随机数
         }
 
-        return prefix + numberPart;
+        return prefix + '-' + numberPart;
       };
       const getDataList = (formList) => {
         const now = getDateTime();
